@@ -355,7 +355,7 @@
                             <Grid>
                                 <Border x:Name="Bar" Width="3" Height="16" CornerRadius="2" HorizontalAlignment="Left"
                                         Margin="-16,0,0,0" Background="{DynamicResource Signal}" Visibility="Hidden" />
-                                <ContentPresenter HorizontalAlignment="Center" TextElement.FontSize="13.5" />
+                                <ContentPresenter HorizontalAlignment="Stretch" Margin="0,0,18,0" TextElement.FontSize="13.5" />
                                 <TextBlock x:Name="Tick" Text="&#xE73E;" FontFamily="Segoe MDL2 Assets" FontSize="11"
                                            Foreground="{StaticResource Text}" HorizontalAlignment="Right" VerticalAlignment="Center"
                                            Margin="0,0,-4,0" Visibility="Collapsed" />
@@ -789,13 +789,13 @@
                             <UniformGrid Rows="1" Margin="-4,0">
                                 <Button Content="Мои сайты" Tag="list-general-user.txt" Style="{StaticResource Pill}" Padding="6,6"
                                         Margin="4" Click="UserList_Click"
-                                        local:Hint.Text="list-general-user.txt — сайты, которые нужно разблокировать дополнительно.&#x0a;&#x0a;Кому нужно: если сайт заблокирован и не открывается даже с включённым обходом.&#x0a;&#x0a;Что делать: впишите домены по одному в строке, например example.com — без https:// и без пути. Поддомены подхватятся сами. Не оставляйте файл пустым.&#x0a;&#x0a;После сохранения выключите и включите обход." />
+                                        local:Hint.Text="list-general-user.txt — сайты, которые нужно разблокировать дополнительно.&#x0a;&#x0a;Кому нужно: если сайт заблокирован и не открывается даже с включённым обходом.&#x0a;&#x0a;Что делать: впишите домены по одному в строке, например example.com — без https:// и без пути. Поддомены подхватятся сами. Не оставляйте файл пустым.&#x0a;&#x0a;Список открывается в приложении. После сохранения работающий обход перезапустится автоматически." />
                                 <Button Content="Исключения" Tag="list-exclude-user.txt" Style="{StaticResource Pill}" Padding="6,6"
                                         Margin="4" Click="UserList_Click"
-                                        local:Hint.Text="list-exclude-user.txt — сайты, которые обход трогать не должен.&#x0a;&#x0a;Кому нужно: если с включённым обходом перестал работать обычный сайт или сервис — банк, игра, рабочий портал.&#x0a;&#x0a;Что делать: впишите домены по одному в строке, например example.com.&#x0a;&#x0a;После сохранения выключите и включите обход." />
+                                        local:Hint.Text="list-exclude-user.txt — сайты, которые обход трогать не должен.&#x0a;&#x0a;Кому нужно: если с включённым обходом перестал работать обычный сайт или сервис — банк, игра, рабочий портал.&#x0a;&#x0a;Что делать: впишите домены по одному в строке, например example.com.&#x0a;&#x0a;Список открывается в приложении. После сохранения работающий обход перезапустится автоматически." />
                                 <Button Content="Исключения IP" Tag="ipset-exclude-user.txt" Style="{StaticResource Pill}" Padding="6,6"
                                         Margin="4" Click="UserList_Click"
-                                        local:Hint.Text="ipset-exclude-user.txt — IP-адреса и подсети, которые обход трогать не должен.&#x0a;&#x0a;Кому нужно: опытным пользователям — когда ломается то, у чего нет доменного имени: игровой сервер, VPN, устройство в домашней сети.&#x0a;&#x0a;Что делать: впишите адреса по одному в строке, например 192.168.0.0/16 или 203.0.113.5.&#x0a;&#x0a;После сохранения выключите и включите обход." />
+                                        local:Hint.Text="ipset-exclude-user.txt — IP-адреса и подсети, которые обход трогать не должен.&#x0a;&#x0a;Кому нужно: опытным пользователям — когда ломается то, у чего нет доменного имени: игровой сервер, VPN, устройство в домашней сети.&#x0a;&#x0a;Что делать: впишите адреса по одному в строке, например 192.168.0.0/16 или 203.0.113.5.&#x0a;&#x0a;Список открывается в приложении. После сохранения работающий обход перезапустится автоматически." />
                                 <Button Content="Папка lists" Style="{StaticResource Pill}" Padding="6,6"
                                         Margin="4" Click="ListsFolder_Click"
                                         local:Hint.Text="Открывает папку со всеми списками zapret.&#x0a;&#x0a;Кому нужно: тем, кто хочет посмотреть, какие сайты и адреса уже входят в обход, или подложить готовый список.&#x0a;&#x0a;Важно: основные файлы (list-general.txt, ipset-all.txt и другие) перезаписываются при обновлении компонентов. Свои правки вносите только в файлы с user в названии — они сохраняются." />
@@ -1201,7 +1201,7 @@
                 </Grid>
                 <Rectangle Fill="{StaticResource Veil}" />
             </Grid>
-            <Border x:Name="StrategyPanel" Width="560" MaxHeight="640" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,24"
+            <Border x:Name="StrategyPanel" Width="780" MaxHeight="720" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,24"
                     CornerRadius="16" BorderBrush="{StaticResource Edge}" BorderThickness="1" Visibility="Collapsed">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -1213,7 +1213,7 @@
                         <StackPanel HorizontalAlignment="Center">
                             <TextBlock Text="Стратегия обхода" FontSize="14" FontWeight="SemiBold"
                                        HorizontalAlignment="Center" Foreground="{StaticResource Text}" />
-                            <TextBlock Text="Если сайты не открываются, выберите другую" FontSize="12"
+                            <TextBlock Text="Отклик HTTPS в мс · нет ответа — проверка не прошла" FontSize="12"
                                        HorizontalAlignment="Center" Foreground="{StaticResource Muted}" Margin="0,2,0,0" />
                         </StackPanel>
                         <Button x:Name="AutoButton" Content="Автоподбор" Style="{StaticResource Pill}"
@@ -1230,11 +1230,52 @@
                                 <!-- "Display" fits every letter to whole pixels. Laid out the usual way ("Ideal"), letters
                                      sit between pixels, and WPF draws them soft once the list has moved - whatever
                                      the hinting mode says; measured on the real pixels, only this keeps them sharp. -->
-                                <TextBlock Text="{Binding Name}" TextOptions.TextFormattingMode="Display"
-                                           TextOptions.TextHintingMode="Fixed" />
+                                <StackPanel TextOptions.TextFormattingMode="Display" TextOptions.TextHintingMode="Fixed">
+                                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
+                                    <TextBlock Text="{Binding Description}" FontSize="12" TextWrapping="Wrap"
+                                               Foreground="{StaticResource Muted}" Margin="0,4,0,0" />
+                                    <TextBlock Text="{Binding ProbeText}" FontSize="12" TextWrapping="Wrap"
+                                               Foreground="{StaticResource Text}" Margin="0,6,0,0" />
+                                </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
                     </ListBox>
+                </Grid>
+            </Border>
+            <Border x:Name="FilePanel" Width="760" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,24"
+                    CornerRadius="16" BorderBrush="{StaticResource Edge}" BorderThickness="1" Visibility="Collapsed">
+                <Grid Margin="20">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                        <RowDefinition Height="Auto" />
+                    </Grid.RowDefinitions>
+                    <StackPanel Margin="0,0,0,12">
+                        <TextBlock x:Name="FileTitle" FontSize="16" FontWeight="SemiBold" Foreground="{StaticResource Text}" />
+                        <TextBlock x:Name="FileHelp" FontSize="12" TextWrapping="Wrap" Foreground="{StaticResource Muted}" Margin="0,5,0,0" />
+                    </StackPanel>
+                    <TextBox x:Name="FileText" Style="{StaticResource Field}" Grid.Row="1" Height="240" MinHeight="120" AcceptsReturn="True" AcceptsTab="True"
+                             FontFamily="Consolas" TextWrapping="NoWrap" VerticalScrollBarVisibility="Auto"
+                             HorizontalScrollBarVisibility="Auto" TextChanged="FileText_Changed" />
+                    <Thumb Grid.Row="2" Height="24" Cursor="SizeNS" DragDelta="FileResize_DragDelta"
+                           AutomationProperties.Name="Изменить высоту поля текста">
+                        <Thumb.Template>
+                            <ControlTemplate TargetType="Thumb">
+                                <Border Background="Transparent">
+                                    <TextBlock Text="↕ Потяните, чтобы изменить высоту поля" FontSize="11" HorizontalAlignment="Center"
+                                               VerticalAlignment="Center" Foreground="{StaticResource Muted}" />
+                                </Border>
+                            </ControlTemplate>
+                        </Thumb.Template>
+                    </Thumb>
+                    <TextBlock x:Name="FileStatus" Grid.Row="3" TextWrapping="Wrap" Foreground="{StaticResource Text}" FontSize="12" Margin="0,4,0,10" />
+                    <StackPanel Grid.Row="4" Orientation="Horizontal" HorizontalAlignment="Right">
+                        <Button x:Name="FileReload" Content="Обновить" Style="{StaticResource Pill}" Click="FileReload_Click" Margin="0,0,8,0" />
+                        <Button x:Name="FileCancel" Content="Отмена" Style="{StaticResource Pill}" Click="FileCancel_Click" Margin="0,0,8,0" />
+                        <Button x:Name="FileSave" Content="Сохранить" Style="{StaticResource Pill}" Click="FileSave_Click" />
+                    </StackPanel>
                 </Grid>
             </Border>
             <Border x:Name="ProxyInfoPanel" Width="560" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,24"

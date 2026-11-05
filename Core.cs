@@ -186,6 +186,18 @@ namespace ZapretLauncher
 
         public string Name { get; set; }
         public string BatPath { get; set; }
+        public string Description { get; set; }
+        string _probeText = "Ещё не проверена";
+        public string ProbeText
+        {
+            get { return _probeText; }
+            set
+            {
+                _probeText = value;
+                PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(nameof(ProbeText)));
+            }
+        }
+        public void ResetProbe() { Works = false; ProbeText = "Ещё не проверена"; }
 
         /// <summary>Set by the auto-pick on every strategy that got the test sites through; the list marks such rows.</summary>
         public bool Works
@@ -249,7 +261,7 @@ namespace ZapretLauncher
             if (root == null) return new List<Strategy>();
             return Directory.GetFiles(root, "*.bat")
                 .Where(f => !Path.GetFileName(f).StartsWith("service", StringComparison.OrdinalIgnoreCase))
-                .Select(f => new Strategy { Name = Path.GetFileNameWithoutExtension(f), BatPath = f })
+                .Select(f => new Strategy { Name = Path.GetFileNameWithoutExtension(f), BatPath = f, Description = StrategyGuide.Describe(f) })
                 .OrderBy(s => NaturalKey(s.Name))
                 .ToList();
         }
@@ -581,27 +593,32 @@ namespace ZapretLauncher
             "https://i.ytimg.com/"
         };
 
-        public static async Task<bool> OkAsync(CancellationToken ct)
+        public static async Task<ProbeResult[]> MeasureAsync(CancellationToken ct)
         {
             ServicePointManager.SecurityProtocol |= SecurityProtocolType.Tls12;
             var handler = new HttpClientHandler { UseProxy = false };
             using (var c = new HttpClient(handler) { Timeout = TimeSpan.FromSeconds(7) })
             {
                 c.DefaultRequestHeaders.UserAgent.ParseAdd("Mozilla/5.0");
-                var results = await Task.WhenAll(Urls.Select(u => One(c, u, ct)));
-                return results.All(r => r);
+                return await MeasureAsync(c, Urls, ct);
             }
         }
 
-        static async Task<bool> One(HttpClient c, string url, CancellationToken ct)
+        public static Task<ProbeResult[]> MeasureAsync(HttpClient client, IEnumerable<string> urls, CancellationToken ct)
         {
+            return Task.WhenAll(urls.Select(url => One(client, url, ct)));
+        }
+
+        static async Task<ProbeResult> One(HttpClient c, string url, CancellationToken ct)
+        {
+            var timer = Stopwatch.StartNew();
             try
             {
                 using (await c.GetAsync(url, HttpCompletionOption.ResponseHeadersRead, ct)) { }
-                return true; // any HTTP answer means the TLS handshake got through
+                return new ProbeResult { Host = new Uri(url).Host, Milliseconds = timer.ElapsedMilliseconds };
             }
             catch (OperationCanceledException) when (ct.IsCancellationRequested) { throw; }
-            catch { return false; }
+            catch { return new ProbeResult { Host = new Uri(url).Host }; }
         }
     }
 

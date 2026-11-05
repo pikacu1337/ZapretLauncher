@@ -344,7 +344,8 @@ namespace ZapretLauncher
         void OpenModal(FrameworkElement panel)
         {
             HideHint();
-            StrategyPanel.Visibility = ProxyInfoPanel.Visibility = Visibility.Collapsed;
+            if (!CanCloseFile()) return;
+            StrategyPanel.Visibility = ProxyInfoPanel.Visibility = FilePanel.Visibility = Visibility.Collapsed;
             panel.Visibility = Visibility.Visible;
             _modal = panel;
             _modalKey = null;
@@ -357,6 +358,7 @@ namespace ZapretLauncher
         void CloseModal()
         {
             if (_modal == null) return;
+            if (!CanCloseFile()) return;
             _modal = null;
             HideHint();
             var fade = new DoubleAnimation(0, TimeSpan.FromMilliseconds(140));
@@ -726,7 +728,8 @@ namespace ZapretLauncher
             bool locked = st == UiState.Installing || st == UiState.Starting || st == UiState.Testing;
             StrategyList.IsEnabled = !locked;
             GameToggle.IsEnabled = !locked;
-            AutoButton.IsEnabled = !locked && _strategies.Count > 0;
+            AutoButton.IsEnabled = st == UiState.Testing || (!locked && _strategies.Count > 0);
+            AutoButton.Content = st == UiState.Testing ? "Отменить" : "Автоподбор";
             UpdateButton.IsEnabled = !locked;
             PowerButton.IsEnabled = st != UiState.Installing && st != UiState.Starting;
 
@@ -994,7 +997,7 @@ namespace ZapretLauncher
         {
             _s.GameFilter = GameToggle.IsChecked == true;
             _s.Save();
-            foreach (var s in _strategies) s.Works = false;
+            foreach (var s in _strategies) s.ResetProbe();
             if (_state == UiState.Running)
             {
                 await StopAsync();
@@ -1029,12 +1032,13 @@ namespace ZapretLauncher
         // the first. When it is done, the first working one is switched on; any other marked row can be picked.
         async void Auto_Click(object sender, RoutedEventArgs e)
         {
-            if (_strategies.Count == 0) return;
+            if (_state == UiState.Testing) { _cts?.Cancel(); return; }
+            if (_strategies.Count == 0 || _state == UiState.Testing || _state == UiState.Starting || _state == UiState.Installing) return;
 
             _cts = new CancellationTokenSource();
             var ct = _cts.Token;
             var working = new List<Strategy>();
-            foreach (var s in _strategies) s.Works = false;
+            foreach (var s in _strategies) s.ResetProbe();
 
             SetState(UiState.Testing);
             try
@@ -1045,6 +1049,7 @@ namespace ZapretLauncher
                 {
                     ct.ThrowIfCancellationRequested();
                     var st = _strategies[i];
+                    st.ProbeText = "Проверяется…";
                     Log("Проверка " + (i + 1) + " из " + _strategies.Count + ": " + st.Name
                         + (working.Count > 0 ? " · рабочих: " + working.Count : ""));
                     SubText.Text = st.Name;
@@ -1053,23 +1058,35 @@ namespace ZapretLauncher
                     // Start() stops whatever the previous round left running
                     try { await Task.Run(() => _runner.Start(st, _s.GameFilter), ct); }
                     catch (OperationCanceledException) { throw; }
-                    catch (Exception) { continue; }
+                    catch (Exception ex) { st.ProbeText = "Ошибка запуска: " + ex.Message; continue; }
 
                     await Task.Delay(1800, ct);
-                    if (!_runner.IsRunning) continue;
+                    if (!_runner.IsRunning) { st.ProbeText = "Не запущена: " + Reason(_runner.LastOutput, "winws.exe завершился"); continue; }
 
-                    if (await Probe.OkAsync(ct))
+                    var results = await Probe.MeasureAsync(ct);
+                    st.ProbeText = "Отклик HTTPS: " + string.Join(" · ", results.Select(r => r.ToString()));
+                    Log(st.Name + " · " + st.ProbeText);
+                    if (results.All(r => r.Success))
                     {
                         st.Works = true;
                         working.Add(st);
                     }
                 }
             }
-            catch (OperationCanceledException) { }
-            catch (Exception ex) { Log("Ошибка подбора: " + ex.Message); }
+            catch (OperationCanceledException)
+            {
+                foreach (var st in _strategies.Where(s => s.ProbeText == "Проверяется…")) st.ProbeText = "Проверка отменена";
+            }
+            catch (Exception ex)
+            {
+                foreach (var st in _strategies.Where(s => s.ProbeText == "Проверяется…")) st.ProbeText = "Проверка не завершена: " + ex.Message;
+                Log("Ошибка подбора: " + ex.Message);
+            }
 
             await Task.Run(() => _runner.Stop());
             bool cancelled = ct.IsCancellationRequested;
+            _cts.Dispose();
+            _cts = null;
 
             if (working.Count > 0 && !cancelled)
             {
@@ -1252,7 +1269,7 @@ namespace ZapretLauncher
                 string dir = Engine.EnsureUserLists();
                 if (dir == null) { Log("Сначала установите компоненты zapret"); return; }
                 string file = (string)((FrameworkElement)sender).Tag;
-                Process.Start("notepad.exe", "\"" + System.IO.Path.Combine(dir, file) + "\"");
+                OpenFilePanel(System.IO.Path.Combine(dir, file), ((System.Windows.Controls.Button)sender).Content.ToString(), true);
             }
             catch (Exception ex) { Log(ex.Message); }
         }
@@ -1271,6 +1288,7 @@ namespace ZapretLauncher
         // -------------------------------------------------------- closing
         protected override void OnClosing(CancelEventArgs e)
         {
+            if (!CanCloseFile()) { e.Cancel = true; return; }
             if (_setupBusy) { e.Cancel = true; return; }   // not in the middle of copying files
 
             // With "close to tray" on, the close button only hides the window; Exit in the tray menu quits.
