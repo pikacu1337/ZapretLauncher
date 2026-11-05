@@ -1201,7 +1201,7 @@
                 </Grid>
                 <Rectangle Fill="{StaticResource Veil}" />
             </Grid>
-            <Border x:Name="StrategyPanel" Width="780" MaxHeight="720" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,24"
+            <Border x:Name="StrategyPanel" Width="680" MaxHeight="640" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,24"
                     CornerRadius="16" BorderBrush="{StaticResource Edge}" BorderThickness="1" Visibility="Collapsed">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -1210,11 +1210,11 @@
                     </Grid.RowDefinitions>
 
                     <Grid Margin="12,10,12,8">
-                        <StackPanel HorizontalAlignment="Center">
+                        <StackPanel HorizontalAlignment="Left" Margin="8,0,0,0">
                             <TextBlock Text="Стратегия обхода" FontSize="14" FontWeight="SemiBold"
-                                       HorizontalAlignment="Center" Foreground="{StaticResource Text}" />
+                                       Foreground="{StaticResource Text}" />
                             <TextBlock Text="Отклик HTTPS в мс · нет ответа — проверка не прошла" FontSize="12"
-                                       HorizontalAlignment="Center" Foreground="{StaticResource Muted}" Margin="0,2,0,0" />
+                                       Foreground="{StaticResource Muted}" Margin="0,2,0,0" />
                         </StackPanel>
                         <Button x:Name="AutoButton" Content="Автоподбор" Style="{StaticResource Pill}"
                                 HorizontalAlignment="Right" VerticalAlignment="Center" Click="Auto_Click" />
@@ -1231,11 +1231,18 @@
                                      sit between pixels, and WPF draws them soft once the list has moved - whatever
                                      the hinting mode says; measured on the real pixels, only this keeps them sharp. -->
                                 <StackPanel TextOptions.TextFormattingMode="Display" TextOptions.TextHintingMode="Fixed">
-                                    <TextBlock Text="{Binding Name}" FontWeight="SemiBold" />
-                                    <TextBlock Text="{Binding Description}" FontSize="12" TextWrapping="Wrap"
-                                               Foreground="{StaticResource Muted}" Margin="0,4,0,0" />
-                                    <TextBlock Text="{Binding ProbeText}" FontSize="12" TextWrapping="Wrap"
-                                               Foreground="{StaticResource Text}" Margin="0,6,0,0" />
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="*" />
+                                            <ColumnDefinition Width="Auto" />
+                                        </Grid.ColumnDefinitions>
+                                        <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Margin="0,0,10,0" />
+                                        <TextBlock Grid.Column="1" Text="{Binding ProbeText}" FontSize="11" MaxWidth="370"
+                                                   TextTrimming="CharacterEllipsis" VerticalAlignment="Center" ToolTip="{Binding ProbeText}"
+                                                   Foreground="{StaticResource Text}" />
+                                    </Grid>
+                                    <TextBlock Text="{Binding Description}" FontSize="12" TextTrimming="CharacterEllipsis"
+                                               Foreground="{StaticResource Muted}" Margin="0,2,0,0" />
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>

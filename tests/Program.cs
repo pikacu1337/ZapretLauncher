@@ -54,12 +54,12 @@ class Program
             var strategy = new Strategy(); int notifications = 0;
             strategy.PropertyChanged += (s, e) => { if (e.PropertyName == "ProbeText") notifications++; };
             strategy.Works = true; strategy.ProbeText = "123 мс"; strategy.ResetProbe();
-            Check(!strategy.Works && strategy.ProbeText == "Ещё не проверена" && notifications == 2, "probe binding updates and reset");
+            Check(!strategy.Works && strategy.ProbeText == "" && notifications == 2, "probe binding updates and reset");
             string[] bats = Directory.GetFiles(args[1], "general*.bat");
             foreach (string bat in bats)
             {
                 string description = StrategyGuide.Describe(bat);
-                Check(description.Contains("Кому:") && description.Contains("Методы:") && !description.Contains("не удалось"), Path.GetFileName(bat) + " description");
+                Check(description.Length < 100 && !description.Contains("\n") && !description.Contains("TLS") && !description.Contains("пакет"), Path.GetFileName(bat) + " concise description");
             }
 
             // Keep all UI checks isolated from the installed application's data and services.
@@ -100,7 +100,7 @@ class Program
                 text.Text = "example.com\r\nпример.рф\r\n";
                 Set(window, "_fileOriginal", text.Text);
                 var list = Field<ListBox>(window, "StrategyList");
-                list.ItemsSource = bats.Select(b => new Strategy { Name = Path.GetFileNameWithoutExtension(b), Description = StrategyGuide.Describe(b), ProbeText = "Отклик HTTPS: www.youtube.com: 84 мс · discord.com: 106 мс · i.ytimg.com: нет ответа" }).ToList();
+                list.ItemsSource = bats.Select(b => new Strategy { Name = Path.GetFileNameWithoutExtension(b), Description = StrategyGuide.Describe(b), ProbeText = "YouTube: 84 мс · Discord: 106 мс · Картинки: нет ответа" }).ToList();
                 Render(window, Path.Combine(dir, "editor.png"));
                 Call(window, "OpenModal", Field<FrameworkElement>(window, "StrategyPanel"));
                 Render(window, Path.Combine(dir, "strategies.png"));

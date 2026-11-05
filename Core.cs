@@ -187,7 +187,7 @@ namespace ZapretLauncher
         public string Name { get; set; }
         public string BatPath { get; set; }
         public string Description { get; set; }
-        string _probeText = "Ещё не проверена";
+        string _probeText = "";
         public string ProbeText
         {
             get { return _probeText; }
@@ -197,7 +197,7 @@ namespace ZapretLauncher
                 PropertyChanged?.Invoke(this, new System.ComponentModel.PropertyChangedEventArgs(nameof(ProbeText)));
             }
         }
-        public void ResetProbe() { Works = false; ProbeText = "Ещё не проверена"; }
+        public void ResetProbe() { Works = false; ProbeText = ""; }
 
         /// <summary>Set by the auto-pick on every strategy that got the test sites through; the list marks such rows.</summary>
         public bool Works
