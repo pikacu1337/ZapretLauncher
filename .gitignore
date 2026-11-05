@@ -4,3 +4,9 @@ out/
 .vs/
 *.user
 *.suo
+build/
+.dotnet-home/
+.serena/
+graphify-out/cache/
+graphify-out/.*
+graphify-out/manifest.json

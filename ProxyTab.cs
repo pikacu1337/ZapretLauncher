@@ -453,7 +453,7 @@ namespace ZapretLauncher
                     Log("Логов пока нет — прокси ещё не запускался");
                     return;
                 }
-                Process.Start("notepad.exe", "\"" + TgProxy.LogFile + "\"");
+                OpenFilePanel(TgProxy.LogFile, "Журнал Telegram-прокси", false);
             }
             catch (Exception ex) { Log(ex.Message); }
         }
