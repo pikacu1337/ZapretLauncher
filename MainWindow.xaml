@@ -4,7 +4,9 @@
         xmlns:local="clr-namespace:ZapretLauncher"
         Title="Zapret Launcher" Width="1152" Height="826" MinWidth="1060" MinHeight="720"
         WindowStartupLocation="CenterScreen" ResizeMode="CanResize"
-        Background="#050505" UseLayoutRounding="True"
+        Background="#050505" UseLayoutRounding="True" SnapsToDevicePixels="True"
+        TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="Auto"
+        TextOptions.TextHintingMode="Fixed"
         FontFamily="Segoe UI Variable Text, Segoe UI">
 
     <!-- Opaque window with a client-drawn frame. A layered (AllowsTransparency) window is copied back
