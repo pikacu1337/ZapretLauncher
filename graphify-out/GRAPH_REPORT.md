@@ -1,38 +1,37 @@
 # Graph Report - ZapretLauncher  (2026-11-05)
 
 ## Corpus Check
-- 19 files · ~27,260 words
+- 19 files · ~27,245 words
 - Verdict: corpus is large enough that graph structure adds value.
 - Unclassified: 7 file(s) not represented in the graph (top: (none) 2, .ico 2, .manifest 1)
 
 ## Summary
-- 711 nodes · 1505 edges · 51 communities (35 shown, 16 thin omitted)
+- 710 nodes · 1504 edges · 45 communities (31 shown, 14 thin omitted)
 - Extraction: 94% EXTRACTED · 6% INFERRED · 0% AMBIGUOUS · INFERRED: 88 edges (avg confidence: 0.85)
 - Token cost: 0 input · 0 output
 
 ## Graph Freshness
-- Built from commit: `5a191a90`
+- Built from commit: `6215835f`
 - Run `git rev-parse HEAD` and compare to check if the graph is stale.
 - Run `graphify update .` after code changes (no API cost).
 
 ## Community Hubs (Navigation)
 - Installer
 - Core.cs
-- .Log
+- Strategy
 - Window
 - MainWindow
 - ProxyRunner
-- .ProxyStartAsync
 - steps
+- MouseButtonEventArgs
 - TextBlock
-- Task
+- TrayMenu
 - ProxyConfig
 - TrayMenu
 - Button
 - App
 - CheckBox
 - Rectangle
-- Zapret Launcher
 - .Main
 - Path
 - Ellipse
@@ -56,13 +55,11 @@
 - PART_Track
 - StrategyList
 - TrayArrow
-- .GoTo
-- TgProxy
-- Settings
+- .SetState
 
 ## God Nodes (most connected - your core abstractions)
 1. `MainWindow` - 208 edges
-2. `Window` - 159 edges
+2. `Window` - 158 edges
 3. `Grid` - 35 edges
 4. `ProxyRunner` - 29 edges
 5. `TextBlock` - 24 edges
@@ -87,47 +84,43 @@
 ## Import Cycles
 - None detected.
 
-## Communities (51 total, 16 thin omitted)
+## Communities (45 total, 14 thin omitted)
 
 ### Community 0 - "Installer"
-Cohesion: 0.18
-Nodes (7): Installer, DefaultDir, DesktopLink, IsInstalledCopy, SelfPath, StartMenuLink, Version
+Cohesion: 0.06
+Nodes (25): Autostart, Probe, ReleaseInfo, Updater, Web, TgProxy, ConfigFile, DataDir (+17 more)
 
 ### Community 1 - "Core.cs"
-Cohesion: 0.11
-Nodes (5): Paths, Engine, SettingsFile, VersionFile, ZapretLauncher
+Cohesion: 0.10
+Nodes (9): Paths, Engine, SettingsFile, VersionFile, ZapretLauncher, SetupMode, Install, None (+1 more)
 
-### Community 3 - ".Log"
-Cohesion: 0.08
-Nodes (12): Autostart, Engine, InstalledVersion, IsInstalled, Strategy, BatPath, Description, Name (+4 more)
+### Community 3 - "Strategy"
+Cohesion: 0.07
+Nodes (22): Engine, InstalledVersion, IsInstalled, Runner, IsRunning, LastOutput, Strategy, BatPath (+14 more)
 
 ### Community 4 - "Window"
-Cohesion: 0.08
-Nodes (42): Description, Name, ProbeText, SelectedItem.Name, Works, Frost, FrostSky, FrostSkyHost (+34 more)
+Cohesion: 0.09
+Nodes (41): Name, ProbeText, SelectedItem.Name, Works, Frost, FrostSky, FrostSkyHost, FrostWallpaper (+33 more)
 
 ### Community 6 - "ProxyRunner"
-Cohesion: 0.10
-Nodes (10): IconFactory, Runner, IsRunning, LastOutput, EnumProc, PROCESS_INFORMATION, ProxyRunner, ForeignRunning (+2 more)
+Cohesion: 0.12
+Nodes (7): IconFactory, EnumProc, PROCESS_INFORMATION, ProxyRunner, ForeignRunning, IsRunning, STARTUPINFO
 
 ### Community 8 - "steps"
 Cohesion: 0.08
 Nodes (23): runs-on, steps, jobs, build, name, on, pull_request, push (+15 more)
 
+### Community 9 - "MouseButtonEventArgs"
+Cohesion: 0.07
+Nodes (7): WaveEffect, Amount, Aspect, Breadth, Centre, Input, Radius
+
 ### Community 10 - "TextBlock"
 Cohesion: 0.08
 Nodes (25): BgBlurValue, BgName, BlurValue, BrightValue, FileHelp, FileStatus, FileTitle, HintText (+17 more)
 
-### Community 12 - "Task"
-Cohesion: 0.34
-Nodes (3): ReleaseInfo, Updater, Web
-
 ### Community 14 - "ProxyConfig"
-Cohesion: 0.16
+Cohesion: 0.17
 Nodes (9): ProxyConfig, CfProxy, DcIp, H2, Host, Link, LinkHost, Port (+1 more)
-
-### Community 15 - "TrayMenu"
-Cohesion: 0.10
-Nodes (9): Glass, Hint, WaveEffect, Amount, Aspect, Breadth, Centre, Input (+1 more)
 
 ### Community 16 - "Button"
 Cohesion: 0.12
@@ -145,13 +138,9 @@ Nodes (11): AutostartToggle, CloseToggle, GameToggle, PxAuto, PxCf, PxH2, SetupA
 Cohesion: 0.18
 Nodes (11): FrostWallpaperBox, FrostWallpaperDim, HintWallpaperBox, HintWallpaperDim, HueMark, ModalWallpaperBox, ModalWallpaperDim, SvHue (+3 more)
 
-### Community 21 - "Zapret Launcher"
-Cohesion: 0.22
-Nodes (8): Zapret Launcher, Благодарности, Вкладка TG WS Proxy, Вкладка «Настройки», Как это работает, Релиз через GitHub Actions, Сборка, Установщик
-
 ### Community 22 - ".Main"
-Cohesion: 0.09
-Nodes (9): Probe, ProbeResult, Host, Milliseconds, Success, StrategyGuide, FakeHandler, Program (+1 more)
+Cohesion: 0.12
+Nodes (4): StrategyGuide, FakeHandler, Program, UserListFile
 
 ### Community 23 - "Path"
 Cohesion: 0.25
@@ -221,33 +210,25 @@ Nodes (3): DownloadBar, SetupBar, ProgressBar
 Cohesion: 0.67
 Nodes (3): PART_ContentHost, Scroll, ScrollViewer
 
-### Community 47 - ".GoTo"
-Cohesion: 0.20
-Nodes (4): SetupMode, Install, None, Uninstall
-
-### Community 48 - "TgProxy"
-Cohesion: 0.20
-Nodes (9): TgProxy, ConfigFile, DataDir, Dir, Exe, InstalledVersion, IsInstalled, LogFile (+1 more)
-
 ## Knowledge Gaps
-- **83 isolated node(s):** `Track`, `Border`, `Engine`, `SettingsFile`, `VersionFile` (+78 more)
-  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 164 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
-- **16 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
+- **82 isolated node(s):** `Track`, `Border`, `Engine`, `SettingsFile`, `VersionFile` (+77 more)
+  These have ≤1 connection - possible missing edges or undocumented components. (Counts symbols only; 163 node(s) total have ≤1 connection when file, concept and rationale nodes are included.)
+- **14 thin communities (<3 nodes) omitted from report** — run `graphify query` to explore isolated nodes.
 
 ## Suggested Questions
 _Questions this graph is uniquely positioned to answer:_
 
-- **Why does `MainWindow` connect `MainWindow` to `Core.cs`, `.StarBrush`, `.Log`, `Window`, `ProxyRunner`, `.ProxyStartAsync`, `MouseButtonEventArgs`, `Color`, `Task`, `.ShowTab`, `ProxyConfig`, `TrayMenu`, `App`, `.ApplyWallpaper`, `.Main`, `UiState`, `ProxyState`, `SetupPage`, `RoutedEventArgs`, `Tab`, `FrameworkElement`, `.GoTo`, `.OpenModal`, `Settings`?**
+- **Why does `MainWindow` connect `MainWindow` to `Installer`, `Core.cs`, `.ApplyWallpaper`, `Strategy`, `Window`, `ProxyRunner`, `.ProxyStartAsync`, `MouseButtonEventArgs`, `TrayMenu`, `.Cleanup`, `ProxyConfig`, `TrayMenu`, `App`, `.Main`, `UiState`, `ProxyState`, `SetupPage`, `RoutedEventArgs`, `Tab`, `.GoTo`, `.SetState`?**
   _High betweenness centrality (0.728) - this node is a cross-community bridge._
 - **Are the 3 inferred relationships involving `MainWindow` (e.g. with `.OnStartup()` and `.RunSetup()`) actually correct?**
   _`MainWindow` has 3 INFERRED edges - model-reasoned connections that need verification._
 - **What connects `Track`, `Border`, `Engine` to the rest of the system?**
-  _83 weakly-connected nodes found - possible documentation gaps or missing edges._
+  _82 weakly-connected nodes found - possible documentation gaps or missing edges._
+- **Should `Installer` be split into smaller, more focused modules?**
+  _Cohesion score 0.057859703020993344 - nodes in this community are weakly interconnected._
+- **Why does `Window` connect `Window` to `MainWindow`, `TextBlock`, `TrayMenu`, `Button`, `CheckBox`, `Rectangle`, `.Main`, `Path`, `Ellipse`, `StackPanel`, `Border`, `Slider`, `TranslateTransform`, `ScaleTransform`, `Canvas`, `RadioButton`, `AccentHex`, `DownloadBar`, `PART_ContentHost`, `AccentSwatches`, `CursorFill`, `PART_Track`, `StrategyList`, `TrayArrow`?**
+  _High betweenness centrality (0.419) - this node is a cross-community bridge._
 - **Should `Core.cs` be split into smaller, more focused modules?**
-  _Cohesion score 0.10784313725490197 - nodes in this community are weakly interconnected._
-- **Why does `Window` connect `Window` to `MainWindow`, `.ProxyStartAsync`, `TextBlock`, `Button`, `CheckBox`, `Rectangle`, `.Main`, `Path`, `Ellipse`, `StackPanel`, `Border`, `Slider`, `TranslateTransform`, `ScaleTransform`, `Canvas`, `RadioButton`, `AccentHex`, `DownloadBar`, `PART_ContentHost`, `AccentSwatches`, `CursorFill`, `PART_Track`, `StrategyList`, `TrayArrow`?**
-  _High betweenness centrality (0.420) - this node is a cross-community bridge._
-- **Should `.StarBrush` be split into smaller, more focused modules?**
-  _Cohesion score 0.14035087719298245 - nodes in this community are weakly interconnected._
-- **Why does `ProxyRunner` connect `ProxyRunner` to `Core.cs`, `MainWindow`, `.ProxyStartAsync`?**
+  _Cohesion score 0.09545454545454546 - nodes in this community are weakly interconnected._
+- **Why does `ProxyRunner` connect `ProxyRunner` to `Installer`, `Core.cs`, `Strategy`, `MainWindow`?**
   _High betweenness centrality (0.074) - this node is a cross-community bridge._
