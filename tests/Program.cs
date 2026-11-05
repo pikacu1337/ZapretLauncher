@@ -76,6 +76,9 @@ class Program
                 window.WindowStartupLocation = WindowStartupLocation.Manual;
                 window.Left = -10000; window.Top = -10000; window.ShowInTaskbar = false;
                 window.Show();
+                Check(TextOptions.GetTextFormattingMode(window) == TextFormattingMode.Display && window.SnapsToDevicePixels, "screen text layout and device pixel snapping enabled");
+                Check(TextOptions.GetTextFormattingMode(Field<TextBlock>(window, "StatusText")) == TextFormattingMode.Display, "text rendering policy inherited by main screen");
+                Check(window.FontFamily.Source == "Segoe UI Variable Text, Segoe UI", "original font family retained");
                 window.Measure(new Size(1152, 826)); window.Arrange(new Rect(0, 0, 1152, 826)); window.UpdateLayout();
                 Call(window, "OpenFilePanel", path, "Мои сайты", true);
                 var text = Field<TextBox>(window, "FileText");
@@ -133,6 +136,13 @@ class Program
         bitmap.Render(shell);
         var encoder = new PngBitmapEncoder(); encoder.Frames.Add(BitmapFrame.Create(bitmap));
         using (var stream = File.Create(path)) encoder.Save(stream);
+        foreach (double scale in new[] { 1.25, 1.5 })
+        {
+            var scaled = new RenderTargetBitmap((int)(1152 * scale), (int)(826 * scale), 96 * scale, 96 * scale, PixelFormats.Pbgra32);
+            scaled.Render(shell);
+            var png = new PngBitmapEncoder(); png.Frames.Add(BitmapFrame.Create(scaled));
+            using (var stream = File.Create(Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path) + "-" + (int)(scale * 100) + ".png"))) png.Save(stream);
+        }
     }
     sealed class FakeHandler : HttpMessageHandler
     {
