@@ -4,9 +4,7 @@
         xmlns:local="clr-namespace:ZapretLauncher"
         Title="Zapret Launcher" Width="1152" Height="826" MinWidth="1060" MinHeight="720"
         WindowStartupLocation="CenterScreen" ResizeMode="CanResize"
-        Background="#050505" UseLayoutRounding="True" SnapsToDevicePixels="True"
-        TextOptions.TextFormattingMode="Display" TextOptions.TextRenderingMode="Auto"
-        TextOptions.TextHintingMode="Fixed"
+        Background="#050505" UseLayoutRounding="True"
         FontFamily="Segoe UI Variable Text, Segoe UI">
 
     <!-- Opaque window with a client-drawn frame. A layered (AllowsTransparency) window is copied back
@@ -1204,6 +1202,8 @@
                 <Rectangle Fill="{StaticResource Veil}" />
             </Grid>
             <Border x:Name="StrategyPanel" Width="680" MaxHeight="640" HorizontalAlignment="Center" VerticalAlignment="Stretch" Margin="0,24"
+                    TextElement.FontFamily="Segoe UI" TextOptions.TextFormattingMode="Display"
+                    TextOptions.TextRenderingMode="Grayscale" TextOptions.TextHintingMode="Fixed" SnapsToDevicePixels="True"
                     CornerRadius="16" BorderBrush="{StaticResource Edge}" BorderThickness="1" Visibility="Collapsed">
                 <Grid>
                     <Grid.RowDefinitions>
@@ -1239,13 +1239,13 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="{Binding Name}" FontWeight="SemiBold" TextTrimming="CharacterEllipsis" Margin="0,0,10,0" />
-                                        <TextBlock Grid.Column="1" Text="{Binding ProbeText}" FontSize="11" MaxWidth="370"
+                                        <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="Medium" TextTrimming="CharacterEllipsis" Margin="0,0,10,0" />
+                                        <TextBlock Grid.Column="1" Text="{Binding ProbeText}" FontSize="12" MaxWidth="370"
                                                    TextTrimming="CharacterEllipsis" VerticalAlignment="Center" ToolTip="{Binding ProbeText}"
                                                    Foreground="{StaticResource Text}" />
                                     </Grid>
-                                    <TextBlock Text="{Binding Description}" FontSize="12" TextTrimming="CharacterEllipsis"
-                                               Foreground="{StaticResource Muted}" Margin="0,2,0,0" />
+                                    <TextBlock Text="{Binding Description}" FontSize="13" TextTrimming="CharacterEllipsis"
+                                               Foreground="#B8B8B8" Margin="0,2,0,0" />
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
