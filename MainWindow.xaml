@@ -1213,7 +1213,8 @@
                         <StackPanel HorizontalAlignment="Left" Margin="8,0,0,0">
                             <TextBlock Text="Стратегия обхода" FontSize="14" FontWeight="SemiBold"
                                        Foreground="{StaticResource Text}" />
-                            <TextBlock Text="Отклик HTTPS в мс · нет ответа — проверка не прошла" FontSize="12"
+                            <TextBlock Text="Средний отклик · меньше — быстрее" FontSize="12"
+                                       ToolTip="Среднее время ответа сайтов. «Частично» — ответили не все сайты; стратегия не считается рабочей."
                                        Foreground="{StaticResource Muted}" Margin="0,2,0,0" />
                         </StackPanel>
                         <Button x:Name="AutoButton" Content="Автоподбор" Style="{StaticResource Pill}"

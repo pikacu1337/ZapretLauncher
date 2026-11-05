@@ -1064,7 +1064,7 @@ namespace ZapretLauncher
                     if (!_runner.IsRunning) { st.ProbeText = "Не запущена: " + Reason(_runner.LastOutput, "winws.exe завершился"); continue; }
 
                     var results = await Probe.MeasureAsync(ct);
-                    st.ProbeText = string.Join(" · ", results.Select(r => r.ToString()));
+                    st.ProbeText = ProbeResult.Summarize(results);
                     Log(st.Name + " · " + st.ProbeText);
                     if (results.All(r => r.Success))
                     {

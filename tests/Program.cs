@@ -37,6 +37,11 @@ class Program
             UserListFile.Save(ip, " \r\n");
             Check(File.ReadAllText(ip).Contains("203.0.113.113/32"), "empty IP list stays safe");
             Check(!Directory.GetFiles(dir, "*.tmp").Any(), "atomic save removes temporary files");
+            Check(ProbeResult.Summarize(new[] { new ProbeResult { Milliseconds = 84 }, new ProbeResult { Milliseconds = 106 }, new ProbeResult { Milliseconds = 95 } }) == "95 мс", "single average across all sites");
+            Check(ProbeResult.Summarize(new[] { new ProbeResult { Milliseconds = 0 }, new ProbeResult { Milliseconds = 1 } }) == "1 мс", "zero response included and average rounded");
+            Check(ProbeResult.Summarize(new[] { new ProbeResult { Milliseconds = 100 }, new ProbeResult(), new ProbeResult { Milliseconds = 140 } }) == "120 мс · частично", "failed sites excluded without hiding partial availability");
+            Check(ProbeResult.Summarize(new[] { new ProbeResult(), new ProbeResult() }) == "Нет ответа", "all failures never become zero ping");
+            Check(ProbeResult.Summarize(new ProbeResult[0]) == "Нет ответа", "empty probe result handled");
             using (var client = new HttpClient(new FakeHandler()))
             {
                 var results = Probe.MeasureAsync(client, new[] { "https://ok.test", "https://fail.test" }, CancellationToken.None).GetAwaiter().GetResult();
@@ -100,7 +105,7 @@ class Program
                 text.Text = "example.com\r\nпример.рф\r\n";
                 Set(window, "_fileOriginal", text.Text);
                 var list = Field<ListBox>(window, "StrategyList");
-                list.ItemsSource = bats.Select(b => new Strategy { Name = Path.GetFileNameWithoutExtension(b), Description = StrategyGuide.Describe(b), ProbeText = "YouTube: 84 мс · Discord: 106 мс · Картинки: нет ответа" }).ToList();
+                list.ItemsSource = bats.Select(b => new Strategy { Name = Path.GetFileNameWithoutExtension(b), Description = StrategyGuide.Describe(b), ProbeText = ProbeResult.Summarize(new[] { new ProbeResult { Milliseconds = 84 }, new ProbeResult { Milliseconds = 106 }, new ProbeResult { Milliseconds = 95 } }) }).ToList();
                 Render(window, Path.Combine(dir, "editor.png"));
                 Call(window, "OpenModal", Field<FrameworkElement>(window, "StrategyPanel"));
                 Render(window, Path.Combine(dir, "strategies.png"));

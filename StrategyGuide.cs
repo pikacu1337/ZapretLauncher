@@ -1,5 +1,7 @@
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 
 namespace ZapretLauncher
 {
@@ -8,6 +10,14 @@ namespace ZapretLauncher
         public string Host { get; set; }
         public long? Milliseconds { get; set; }
         public bool Success { get { return Milliseconds.HasValue; } }
+        public static string Summarize(IEnumerable<ProbeResult> results)
+        {
+            var all = results.ToArray();
+            var replies = all.Where(r => r.Success).ToArray();
+            if (replies.Length == 0) return "Нет ответа";
+            long average = (long)Math.Round(replies.Average(r => r.Milliseconds.Value), MidpointRounding.AwayFromZero);
+            return average + " мс" + (replies.Length < all.Length ? " · частично" : "");
+        }
         public override string ToString()
         {
             string label = Host == "www.youtube.com" ? "YouTube" : Host == "discord.com" ? "Discord"
