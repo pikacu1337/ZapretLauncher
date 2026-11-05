@@ -76,8 +76,10 @@ class Program
                 window.WindowStartupLocation = WindowStartupLocation.Manual;
                 window.Left = -10000; window.Top = -10000; window.ShowInTaskbar = false;
                 window.Show();
-                Check(TextOptions.GetTextFormattingMode(window) == TextFormattingMode.Display && window.SnapsToDevicePixels, "screen text layout and device pixel snapping enabled");
-                Check(TextOptions.GetTextFormattingMode(Field<TextBlock>(window, "StatusText")) == TextFormattingMode.Display, "text rendering policy inherited by main screen");
+                Check(TextOptions.GetTextFormattingMode(window) == TextFormattingMode.Ideal && !window.SnapsToDevicePixels, "original window text rendering restored");
+                Check(TextOptions.GetTextFormattingMode(Field<TextBlock>(window, "StatusText")) == TextFormattingMode.Ideal, "main screen keeps original text rendering");
+                Check(TextOptions.GetTextRenderingMode(Field<ListBox>(window, "StrategyList")) == TextRenderingMode.Grayscale, "strategy list uses smoothing safe on translucent surfaces");
+                Check(Field<ListBox>(window, "StrategyList").FontFamily.Source == "Segoe UI", "static Segoe UI scoped to strategy list");
                 Check(window.FontFamily.Source == "Segoe UI Variable Text, Segoe UI", "original font family retained");
                 window.Measure(new Size(1152, 826)); window.Arrange(new Rect(0, 0, 1152, 826)); window.UpdateLayout();
                 Call(window, "OpenFilePanel", path, "Мои сайты", true);

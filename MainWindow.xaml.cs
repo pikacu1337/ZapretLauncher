@@ -332,11 +332,7 @@ namespace ZapretLauncher
             HintShadow.Width = w + 80;
             HintShadow.Height = h + 80;
             HintFrost.Clip = new RectangleGeometry(new Rect(x, y, w, h), 14, 14);
-            HintLayer.Opacity = 1;
-            HintLayer.BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(140))
-            {
-                FillBehavior = FillBehavior.Stop
-            });
+            HintLayer.BeginAnimation(OpacityProperty, new DoubleAnimation(1, TimeSpan.FromMilliseconds(140)));
         }
 
         // ------------------------------------------------------------ modal
@@ -356,11 +352,7 @@ namespace ZapretLauncher
             ModalLayer.Visibility = Visibility.Visible;
             ModalLayer.UpdateLayout();
             FitModal();
-            ModalLayer.Opacity = 1;
-            ModalLayer.BeginAnimation(OpacityProperty, new DoubleAnimation(0, 1, TimeSpan.FromMilliseconds(180))
-            {
-                FillBehavior = FillBehavior.Stop
-            });
+            ModalLayer.BeginAnimation(OpacityProperty, new DoubleAnimation(1, TimeSpan.FromMilliseconds(180)));
         }
 
         void CloseModal()
@@ -1216,20 +1208,6 @@ namespace ZapretLauncher
 
         // Text drawn between device pixels is what smeared while the list was moving.
         double SnapToPixel(double v) { return Math.Round(v * _dpiScale) / _dpiScale; }
-
-        protected override void OnDpiChanged(DpiScale oldDpi, DpiScale newDpi)
-        {
-            base.OnDpiChanged(oldDpi, newDpi);
-            _dpiScale = newDpi.DpiScaleY;
-            _modalKey = null;
-            if (_listScroll != null)
-            {
-                BeginAnimation(ListOffsetProperty, null);
-                _scrolling = false;
-                _scrollTarget = SnapToPixel(_listScroll.VerticalOffset);
-                _listScroll.ScrollToVerticalOffset(_scrollTarget);
-            }
-        }
 
         System.Windows.Controls.ScrollViewer _listScroll;
         double _scrollTarget;
