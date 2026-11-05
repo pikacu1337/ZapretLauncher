@@ -1214,7 +1214,7 @@
                     <Grid Margin="12,10,12,8">
                         <StackPanel HorizontalAlignment="Left" Margin="8,0,0,0">
                             <TextBlock Text="Стратегия обхода" FontSize="14" FontWeight="SemiBold"
-                                       Foreground="{StaticResource Text}" />
+                                       Foreground="#CDD0D5" />
                             <TextBlock Text="Средний отклик · меньше — быстрее" FontSize="12"
                                        ToolTip="Среднее время ответа сайтов. «Частично» — ответили не все сайты; стратегия не считается рабочей."
                                        Foreground="{StaticResource Muted}" Margin="0,2,0,0" />
@@ -1239,13 +1239,12 @@
                                             <ColumnDefinition Width="*" />
                                             <ColumnDefinition Width="Auto" />
                                         </Grid.ColumnDefinitions>
-                                        <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="Medium" TextTrimming="CharacterEllipsis" Margin="0,0,10,0" />
+                                        <TextBlock Text="{Binding Name}" FontSize="14" FontWeight="Normal" Foreground="#B9BEC6"
+                                                   TextTrimming="CharacterEllipsis" Margin="0,0,10,0" />
                                         <TextBlock Grid.Column="1" Text="{Binding ProbeText}" FontSize="12" MaxWidth="370"
                                                    TextTrimming="CharacterEllipsis" VerticalAlignment="Center" ToolTip="{Binding ProbeText}"
-                                                   Foreground="{StaticResource Text}" />
+                                                   Foreground="#A1A6AE" />
                                     </Grid>
-                                    <TextBlock Text="{Binding Description}" FontSize="13" TextTrimming="CharacterEllipsis"
-                                               Foreground="#B8B8B8" Margin="0,2,0,0" />
                                 </StackPanel>
                             </DataTemplate>
                         </ListBox.ItemTemplate>
